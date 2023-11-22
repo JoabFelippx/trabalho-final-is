@@ -28,9 +28,9 @@ def sendMsg(content, topic):
     channel.publish(request, topic=topic)
 
 while True:
-    
+    print('shadsga')    
     reply = channel.consume()
-
+    print(reply)
     log.info('Message received. Checking content and trying to bring the system online...')
 
     time.sleep(1)
@@ -70,7 +70,8 @@ def requestRobot(msg, ctx):
        channel.publish(request, topic="Set.Position")
 
     else:
-log.info(f'Received a INVALID ARGUMENT request from OPERATOR')
+
+       log.info(f'Received a INVALID ARGUMENT request from OPERATOR')
        return Status(StatusCode.INVALID_ARGUMENT, 'Function must be get_position or set_position')
 
     try:
@@ -116,31 +117,4 @@ provider.delegate(
 ) 
 
 provider.run()
-
-
-       log.info(f'Received a INVALID ARGUMENT request from OPERATOR')
-       return Status(StatusCode.INVALID_ARGUMENT, 'Function must be get_position or set_position')
-
-    try:
-
-
-       if type_req != 'FALSE FUNCTION':
-          log.info(f'Waiting {type_req} reply from ROBOT CONTROLLER...')
-          log.info(f'{type_req} from ROBOT CONTROLLER received:')
-
-       reply = channel.consume()
-       requisicaoRobo = RequisicaoRobo()
-       requisicaoRobo = reply.unpack(RequisicaoRobo)
-
-       if type_req == 'GET POSITION':
-
-          log.info(f'ROBOT ID: {requisicaoRobo.id} - X: {requisicaoRobo.positions.x} - Y: {requisicaoRobo.positions.y}')
-          log.info('Sending GET POSITION reply to OPERATOR...')
-
-       elif type_req == 'SET POSITION':
-
-          log.info(f'{type_req} Reply: {reply.status.code}')
-
-       else:
-
 
